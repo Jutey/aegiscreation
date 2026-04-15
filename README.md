@@ -1,113 +1,138 @@
-# Aegis Creation
+# AegisCreation Blog
 
-A modern, dark-mode-first AI technology blog built with Astro.
+A modern, full-featured blog platform built with Node.js, Express, and MongoDB.
 
-## 🚀 Project Overview
+## Features
 
-Aegis Creation is a cutting-edge tech blog focused on artificial intelligence, machine learning, and emerging technologies. Built for performance, SEO, and monetization readiness.
+- 📝 Create, read, update, and delete blog posts
+- 👤 User authentication and authorization
+- 💬 Comment system
+- 🏷️ Tags and categories
+- 🔍 Search functionality
+- 📱 Responsive design
+- 🎨 Clean, modern UI
 
-## ✨ Features
+## Tech Stack
 
-- **Dark Mode First**: Modern dark theme optimized for readability
-- **SEO Optimized**: Built-in meta tags, Open Graph, structured data
-- **Blazing Fast**: Static site generation with Astro
-- **Monetization Ready**: Ad placements, affiliate sections, newsletter integration
-- **Cloudflare Deployment**: Optimized for Cloudflare Pages
-- **Extensible Architecture**: Easy to add new features and content
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB with Mongoose
+- **Authentication:** JWT, bcrypt
+- **Frontend:** EJS templates, CSS3, JavaScript
+- **Other:** dotenv, express-validator
 
-## 🛠️ Tech Stack
+## Installation
 
-- **Framework**: Astro
-- **Styling**: CSS with custom properties
-- **Deployment**: Cloudflare Pages
-- **Content**: Markdown/MDX
-
-## 📁 Project Structure
-
-```
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   ├── Header.astro
-│   │   ├── Footer.astro
-│   │   ├── BlogCard.astro
-│   │   ├── Newsletter.astro
-│   │   └── AdPlacement.astro
-│   ├── layouts/
-│   │   ├── BaseLayout.astro
-│   │   └── BlogPost.astro
-│   ├── pages/
-│   │   ├── index.astro
-│   │   ├── blog/
-│   │   │   └── index.astro
-│   │   └── posts/
-│   ├── styles/
-│   │   └── global.css
-│   └── content/
-│       └── blog/
-└── package.json
-```
-
-## 🚀 Quick Start
-
+1. Clone the repository:
 ```bash
-# Install dependencies
+git clone https://github.com/aegiscreation/blog.git
+cd blog
+```
+
+2. Install dependencies:
+```bash
 npm install
+```
 
-# Start development server
+3. Create a `.env` file in the root directory:
+```env
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/aegisblog
+JWT_SECRET=your-secret-key-here
+NODE_ENV=development
+```
+
+4. Start the development server:
+```bash
 npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
 ```
 
-## 📝 Adding Content
+5. Open your browser and navigate to `http://localhost:3000`
 
-Create new blog posts in `src/content/blog/` as Markdown files:
+## Project Structure
 
-```markdown
----
-title: "Your Post Title"
-description: "Post description for SEO"
-pubDate: 2025-01-15
-author: "Aegis"
-tags: ["AI", "Technology"]
----
-
-Your content here...
+```
+blog/
+├── config/
+│   └── db.js
+├── controllers/
+│   ├── authController.js
+│   ├── postController.js
+│   └── commentController.js
+├── middleware/
+│   ├── auth.js
+│   └── errorHandler.js
+├── models/
+│   ├── User.js
+│   ├── Post.js
+│   └── Comment.js
+├── public/
+│   ├── css/
+│   ├── js/
+│   └── images/
+├── routes/
+│   ├── auth.js
+│   ├── posts.js
+│   └── comments.js
+├── views/
+│   ├── layouts/
+│   ├── partials/
+│   └── pages/
+├── .env
+├── .gitignore
+├── package.json
+├── README.md
+└── server.js
 ```
 
-## 🌐 Deployment
+## API Endpoints
 
-This project is configured for Cloudflare Pages:
+### Authentication
+- `POST /api/auth/register` - Register a new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/logout` - Logout user
 
-1. Connect your GitHub repo to Cloudflare Pages
-2. Set build command: `npm run build`
-3. Set output directory: `dist`
-4. Deploy
+### Posts
+- `GET /api/posts` - Get all posts
+- `GET /api/posts/:id` - Get single post
+- `POST /api/posts` - Create new post (auth required)
+- `PUT /api/posts/:id` - Update post (auth required)
+- `DELETE /api/posts/:id` - Delete post (auth required)
 
-## 💰 Monetization
+### Comments
+- `GET /api/posts/:postId/comments` - Get comments for a post
+- `POST /api/posts/:postId/comments` - Add comment (auth required)
+- `DELETE /api/comments/:id` - Delete comment (auth required)
 
-The template includes ready-to-use sections for:
+## Scripts
 
-- **Display Ads**: Strategic ad placement components
-- **Affiliate Links**: Product recommendation sections
-- **Newsletter**: Email capture for audience building
-- **Sponsored Content**: Dedicated sponsored post layouts
+- `npm start` - Start production server
+- `npm run dev` - Start development server with nodemon
+- `npm test` - Run tests
 
-## 🤖 Built by Aegis
+## Contributing
 
-This blog is maintained and extended by Aegis, an AI development system working alongside William.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## 📄 License
+## License
 
-MIT License - Feel free to use and modify.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Author
+
+**AegisCreation**
+
+- GitHub: [@aegiscreation](https://github.com/aegiscreation)
+
+## Acknowledgments
+
+- Express.js documentation
+- MongoDB documentation
+- All contributors who helped with this project
 
 ---
 
-*Aegis Creation - Where AI Meets Innovation*
+Made with ❤️ by AegisCreation

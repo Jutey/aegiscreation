@@ -1,225 +1,188 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
-import Newsletter from '../components/Newsletter.astro';
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
 
-const featuredPosts = [
-  {
-    title: "The Rise of Autonomous AI Agents in 2025",
-    slug: "autonomous-ai-agents-2025",
-    excerpt: "Exploring how autonomous AI agents are reshaping workflows, development, and decision-making across industries.",
-    date: "2025-01-15",
-    category: "AI Trends",
-    image: "/images/ai-agents.jpg",
-    readTime: "8 min read"
-  },
-  {
-    title: "Building Production-Ready LLM Applications",
-    slug: "production-ready-llm-apps",
-    excerpt: "A comprehensive guide to architecting, deploying, and scaling large language model applications.",
-    date: "2025-01-12",
-    category: "Development",
-    image: "/images/llm-apps.jpg",
-    readTime: "12 min read"
-  },
-  {
-    title: "RAG vs Fine-Tuning: When to Use What",
-    slug: "rag-vs-fine-tuning",
-    excerpt: "Understanding the trade-offs between retrieval-augmented generation and model fine-tuning for your use case.",
-    date: "2025-01-10",
-    category: "Technical Deep Dive",
-    image: "/images/rag-finetuning.jpg",
-    readTime: "10 min read"
-  }
-];
-
-const categories = [
-  { name: "AI Trends", count: 24, icon: "📈" },
-  { name: "Development", count: 18, icon: "💻" },
-  { name: "Tools & Reviews", count: 15, icon: "🛠️" },
-  { name: "Tutorials", count: 32, icon: "📚" },
-  { name: "Industry News", count: 21, icon: "📰" }
-];
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => 
+  new Date(b.data.pubDate).valueOf() - new Date(a.data.pubDate).valueOf()
+);
 ---
 
-<BaseLayout title="Aegis Creation - AI Tech Blog" description="Your source for cutting-edge AI insights, tutorials, and industry analysis. Stay ahead with Aegis Creation.">
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-content">
-      <span class="hero-badge">AI-Powered Insights</span>
-      <h1>Navigate the Future of <span class="gradient-text">Artificial Intelligence</span></h1>
-      <p class="hero-description">
-        Expert analysis, practical tutorials, and breaking news from the frontier of AI technology. 
-        Built by AI, curated for humans.
-      </p>
-      <div class="hero-actions">
-        <a href="/blog" class="btn btn-primary">Explore Articles</a>
-        <a href="#newsletter" class="btn btn-secondary">Subscribe Free</a>
-      </div>
-      <div class="hero-stats">
-        <div class="stat">
-          <span class="stat-number">150+</span>
-          <span class="stat-label">Articles</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number">50K+</span>
-          <span class="stat-label">Readers</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number">Daily</span>
-          <span class="stat-label">Updates</span>
-        </div>
-      </div>
-    </div>
-    <div class="hero-visual">
-      <div class="hero-glow"></div>
-      <div class="hero-grid"></div>
-    </div>
-  </section>
+<Layout title="Aegis Creation Blog">
+  <main>
+    <section class="hero">
+      <h1>Welcome to Aegis Creation</h1>
+      <p>Thoughts, tutorials, and insights on web development, design, and technology.</p>
+    </section>
 
-  <!-- Featured Posts -->
-  <section class="featured-section">
-    <div class="section-header">
-      <h2>Featured Articles</h2>
-      <a href="/blog" class="view-all">View All →</a>
-    </div>
-    <div class="posts-grid">
-      {featuredPosts.map((post) => (
-        <PostCard 
-          title={post.title}
-          slug={post.slug}
-          excerpt={post.excerpt}
-          date={post.date}
-          category={post.category}
-          image={post.image}
-          readTime={post.readTime}
-        />
-      ))}
-    </div>
-  </section>
-
-  <!-- Categories Section -->
-  <section class="categories-section">
-    <h2>Explore Topics</h2>
-    <div class="categories-grid">
-      {categories.map((category) => (
-        <a href={`/category/${category.name.toLowerCase().replace(/\s+/g, '-')}`} class="category-card">
-          <span class="category-icon">{category.icon}</span>
-          <span class="category-name">{category.name}</span>
-          <span class="category-count">{category.count} articles</span>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <!-- Ad Placement -->
-  <aside class="ad-section">
-    <div class="ad-placeholder" data-ad-slot="homepage-mid">
-      <span>Advertisement</span>
-    </div>
-  </aside>
-
-  <!-- Newsletter Section -->
-  <section id="newsletter" class="newsletter-section">
-    <Newsletter />
-  </section>
-
-  <!-- Affiliate Section -->
-  <section class="tools-section">
-    <div class="section-header">
-      <h2>Recommended AI Tools</h2>
-      <span class="affiliate-disclosure">Affiliate links help support our content</span>
-    </div>
-    <div class="tools-grid">
-      <a href="#" class="tool-card" data-affiliate="true">
-        <div class="tool-logo">🤖</div>
-        <h3>Claude Pro</h3>
-        <p>Advanced AI assistant for complex tasks</p>
-        <span class="tool-cta">Try Free →</span>
-      </a>
-      <a href="#" class="tool-card" data-affiliate="true">
-        <div class="tool-logo">🎨</div>
-        <h3>Midjourney</h3>
-        <p>Create stunning AI-generated artwork</p>
-        <span class="tool-cta">Get Started →</span>
-      </a>
-      <a href="#" class="tool-card" data-affiliate="true">
-        <div class="tool-logo">⚡</div>
-        <h3>Cursor AI</h3>
-        <p>AI-powered code editor</p>
-        <span class="tool-cta">Download →</span>
-      </a>
-    </div>
-  </section>
-</BaseLayout>
+    <section class="posts">
+      <h2>Latest Posts</h2>
+      <ul class="post-list">
+        {sortedPosts.length === 0 ? (
+          <li class="no-posts">
+            <p>No posts yet. Check back soon!</p>
+          </li>
+        ) : (
+          sortedPosts.map((post) => (
+            <li class="post-card">
+              <a href={`/blog/${post.slug}`}>
+                {post.data.image && (
+                  <img src={post.data.image} alt={post.data.title} class="post-image" />
+                )}
+                <div class="post-content">
+                  <h3>{post.data.title}</h3>
+                  <p class="post-date">
+                    <time datetime={post.data.pubDate.toISOString()}>
+                      {new Date(post.data.pubDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })}
+                    </time>
+                  </p>
+                  <p class="post-description">{post.data.description}</p>
+                  {post.data.tags && (
+                    <div class="tags">
+                      {post.data.tags.map((tag: string) => (
+                        <span class="tag">{tag}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </a>
+            </li>
+          ))
+        )}
+      </ul>
+    </section>
+  </main>
+</Layout>
 
 <style>
+  main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
   .hero {
-    position: relative;
-    padding: 6rem 0 4rem;
-    overflow: hidden;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    max-width: 800px;
-  }
-
-  .hero-badge {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: rgba(99, 102, 241, 0.2);
-    border: 1px solid rgba(99, 102, 241, 0.3);
-    border-radius: 2rem;
-    font-size: 0.875rem;
-    color: var(--color-primary);
-    margin-bottom: 1.5rem;
-  }
-
-  .hero h1 {
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 800;
-    line-height: 1.1;
-    margin-bottom: 1.5rem;
-  }
-
-  .gradient-text {
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .hero-description {
-    font-size: 1.25rem;
-    color: var(--color-text-muted);
-    line-height: 1.7;
-    margin-bottom: 2rem;
-    max-width: 600px;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    color: white;
     margin-bottom: 3rem;
   }
 
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.875rem 1.75rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  .hero p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .posts h2 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #1a202c;
+  }
+
+  .post-list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+
+  .post-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .post-card a {
     text-decoration: none;
-    transition: all 0.2s ease;
+    color: inherit;
+    display: block;
   }
 
-  .btn-primary {
-    background: var(--color-primary);
-    color: white;
+  .post-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
   }
 
-  .btn-primary:hover {
-    background
+  .post-content {
+    padding: 1.5rem;
+  }
+
+  .post-content h3 {
+    font-size: 1.5rem;
+    color: #1a202c;
+    margin-bottom: 0.5rem;
+  }
+
+  .post-date {
+    font-size: 0.875rem;
+    color: #718096;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-description {
+    color: #4a5568;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: #edf2f7;
+    color: #667eea;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .no-posts {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background: #f7fafc;
+    border-radius: 12px;
+    color: #718096;
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2rem;
+    }
+
+    .hero p {
+      font-size: 1rem;
+    }
+
+    .post-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
